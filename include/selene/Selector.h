@@ -34,11 +34,11 @@ private:
 
     Selector(lua_State *s, Registry &r, const std::string &name,
              std::vector<Fun> traversal, Fun get, PFun put)
-        : _state(s), _registry(r), _name(name), _traversal{traversal},
-          _get(get), _put(put), _functor{nullptr} {}
+        : _state(s), _registry(r), _name(name), _traversal(traversal),
+          _get(get), _put(put), _functor(nullptr) {}
 
     Selector(lua_State *s, Registry &r, const char *name)
-        : _state(s), _registry(r), _name(name), _functor{nullptr} {
+        : _state(s), _registry(r), _name(name), _functor(nullptr) {
         _get = [this, name]() {
             lua_getglobal(_state, name);
         };
@@ -72,10 +72,10 @@ public:
     Selector(const Selector &other)
         : _state(other._state),
           _registry(other._registry),
-          _name{other._name},
-        _traversal{other._traversal},
-        _get{other._get},
-        _put{other._put} {}
+          _name(other._name),
+        _traversal(other._traversal),
+        _get(other._get),
+        _put(other._put) {}
 
     ~Selector() {
         // If there is a functor present, execute it and collect no args
